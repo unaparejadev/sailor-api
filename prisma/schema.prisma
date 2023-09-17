@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Senshi {
+  id        Int     @id @default(autoincrement())
+  codeName  String  @unique
+  firstName String
+  lastName  String
+  age       Int
+  familiars Familiar[]
+  colors    Color[]
+  objects   Object[]
+}
+
+model Familiar {
+  id        Int     @id @default(autoincrement())
+  name      String
+  senshi    Senshi  @relation(fields: [senshiId], references: [id])
+  senshiId  Int
+}
+
+model Color {
+  id        Int     @id @default(autoincrement())
+  name      String
+  code      String
+  senshi    Senshi  @relation(fields: [senshiId], references: [id])
+  senshiId  Int
+}
+
+model Object {
+  id        Int @id @default(autoincrement())
+  name      String
+  senshi    Senshi @relation(fields: [senshiId], references: [id])
+  senshiId  Int
+}
