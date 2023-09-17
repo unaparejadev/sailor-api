@@ -88,7 +88,13 @@ app.use(express.json());
 // });
 
 app.get("/senshis", async (req, res) => {
-  const senshis = await prisma.senshi.findMany();
+  const senshis = await prisma.senshi.findMany({
+    include: {
+      familiars: true,
+      colors: true,
+      accessories: true,
+    },
+  });
   res.json(senshis);
 });
 
