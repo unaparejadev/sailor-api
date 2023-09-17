@@ -87,10 +87,10 @@ app.use(express.json());
 //   res.json(post);
 // });
 
-// app.get("/users", async (req, res) => {
-//   const users = await prisma.user.findMany();
-//   res.json(users);
-// });
+app.get("/senshis", async (req, res) => {
+  const senshis = await prisma.senshi.findMany();
+  res.json(senshis);
+});
 
 // app.get("/user/:id/drafts", async (req, res) => {
 //   const { id } = req.params;

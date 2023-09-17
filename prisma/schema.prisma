@@ -11,14 +11,15 @@ datasource db {
 }
 
 model Senshi {
-  id        Int     @id @default(autoincrement())
-  codeName  String  @unique
-  firstName String
-  lastName  String
-  age       Int
-  familiars Familiar[]
-  colors    Color[]
-  objects   Object[]
+  id            Int       @id @default(autoincrement())
+  codeName      String    @unique
+  planet        String
+  firstName     String
+  lastName      String
+  age           Int
+  familiars     Familiar[]
+  colors        Color[]
+  accessories   Accessory[]
 }
 
 model Familiar {
@@ -36,7 +37,7 @@ model Color {
   senshiId  Int
 }
 
-model Object {
+model Accessory {
   id        Int @id @default(autoincrement())
   name      String
   senshi    Senshi @relation(fields: [senshiId], references: [id])
