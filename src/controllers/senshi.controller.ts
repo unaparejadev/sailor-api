@@ -1,4 +1,4 @@
-import { RequestHandler } from 'express';
+import { RequestHandler } from "express";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -13,6 +13,29 @@ export const GetAllSenshis: RequestHandler = async (req, res) => {
   });
 
   res.json(senshis);
+};
+
+export const GetSenshiById: RequestHandler = async (req, res) => {
+  const { id } = req.params;
+
+  if (isNaN(Number(id))) {
+    return res.status(400).json({ error: `Invalid ID: ${id}` });
+  }
+
+  const senshi = await prisma.senshi.findUnique({
+    where: { id: Number(id) },
+    include: {
+      familiars: true,
+      colors: true,
+      accessories: true,
+    },
+  });
+
+  if (senshi) {
+    return res.json(senshi);
+  }
+
+  return res.status(404).json({ error: `Senshi with ID ${id} does not exist` });
 };
 
 // app.post(`/signup`, async (req, res) => {
