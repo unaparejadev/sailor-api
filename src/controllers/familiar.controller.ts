@@ -16,15 +16,15 @@ export const GetFamiliarsById: RequestHandler = async (req, res) => {
     return res.status(400).json({ error: `Invalid ID: ${id}` });
   }
 
-  const familiars = await prisma.familiar.findUnique({
+  const familiar = await prisma.familiar.findUnique({
     where: { id: Number(id) },
     include: {
       senshi: true,
     },
   });
 
-  if (familiars) {
-    return res.json(familiars);
+  if (familiar) {
+    return res.json(familiar);
   }
 
   return res
