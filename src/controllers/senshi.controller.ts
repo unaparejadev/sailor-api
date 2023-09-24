@@ -38,6 +38,30 @@ export const GetSenshiById: RequestHandler = async (req, res) => {
   return res.status(404).json({ error: `Senshi with ID ${id} does not exist` });
 };
 
+export const CreateSenshi: RequestHandler = async (req, res) => {
+  const { senshi, familiars, colors, accessories } = req.body;
+
+  try {
+    const newSenshi = await prisma.senshi.create({
+      data: {
+        ...senshi,
+        familiars: {
+          create: familiars,
+        },
+        colors: {
+          create: colors,
+        },
+        accessories: {
+          create: accessories,
+        },
+      },
+    });
+    return res.json(newSenshi);
+  } catch (error) {
+    return res.status(500).json({ error });
+  }
+};
+
 // app.post(`/signup`, async (req, res) => {
 //   const { name, email, posts } = req.body;
 
