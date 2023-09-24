@@ -62,76 +62,24 @@ export const CreateSenshi: RequestHandler = async (req, res) => {
   }
 };
 
-// app.post(`/signup`, async (req, res) => {
-//   const { name, email, posts } = req.body;
+export const UpdateSenshi: RequestHandler = async (req, res) => {
+  const { id } = req.params;
 
-//   const postData = posts?.map((post: Prisma.PostCreateInput) => {
-//     return { title: post?.title, content: post?.content };
-//   });
+  if (isNaN(Number(id))) {
+    return res.status(400).json({ error: `Invalid ID: ${id}` });
+  }
 
-//   const result = await prisma.user.create({
-//     data: {
-//       name,
-//       email,
-//       posts: {
-//         create: postData,
-//       },
-//     },
-//   });
-//   res.json(result);
-// });
+  try {
+    const updatedSenshi = await prisma.senshi.update({
+      where: { id: Number(id) },
+      data: req.body,
+    });
 
-// app.post(`/post`, async (req, res) => {
-//   const { title, content, authorEmail } = req.body;
-//   const result = await prisma.post.create({
-//     data: {
-//       title,
-//       content,
-//       author: { connect: { email: authorEmail } },
-//     },
-//   });
-//   res.json(result);
-// });
-
-// app.put("/post/:id/views", async (req, res) => {
-//   const { id } = req.params;
-
-//   try {
-//     const post = await prisma.post.update({
-//       where: { id: Number(id) },
-//       data: {
-//         viewCount: {
-//           increment: 1,
-//         },
-//       },
-//     });
-
-//     res.json(post);
-//   } catch (error) {
-//     res.json({ error: `Post with ID ${id} does not exist in the database` });
-//   }
-// });
-
-// app.put("/publish/:id", async (req, res) => {
-//   const { id } = req.params;
-
-//   try {
-//     const postData = await prisma.post.findUnique({
-//       where: { id: Number(id) },
-//       select: {
-//         published: true,
-//       },
-//     });
-
-//     const updatedPost = await prisma.post.update({
-//       where: { id: Number(id) || undefined },
-//       data: { published: !postData?.published },
-//     });
-//     res.json(updatedPost);
-//   } catch (error) {
-//     res.json({ error: `Post with ID ${id} does not exist in the database` });
-//   }
-// });
+    return res.json(updatedSenshi);
+  } catch (error) {
+    return res.status(500).json({ error });
+  }
+};
 
 // app.delete(`/post/:id`, async (req, res) => {
 //   const { id } = req.params;
