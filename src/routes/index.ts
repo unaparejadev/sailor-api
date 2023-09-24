@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import senshiRoutes from './v1/senshi';
+import senshiRoutes from './v1/senshi.routes';
 
 const router = Router();
 

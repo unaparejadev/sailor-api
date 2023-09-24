@@ -1,10 +1,9 @@
-import express from 'express';
+import { RequestHandler } from 'express';
 import { PrismaClient } from "@prisma/client";
 
-const router = express.Router();
 const prisma = new PrismaClient();
 
-router.get('/', async (req, res) => {
+export const GetAllSenshis: RequestHandler = async (req, res) => {
   const senshis = await prisma.senshi.findMany({
     include: {
       familiars: true,
@@ -14,7 +13,7 @@ router.get('/', async (req, res) => {
   });
 
   res.json(senshis);
-});
+};
 
 // app.post(`/signup`, async (req, res) => {
 //   const { name, email, posts } = req.body;
@@ -160,5 +159,3 @@ router.get('/', async (req, res) => {
 
 //   res.json(posts);
 // });
-
-export default router;
