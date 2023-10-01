@@ -17,6 +17,7 @@ model Senshi {
   firstName     String
   lastName      String
   age           Int
+  picture       String    @default("")
   familiars     Familiar[]
   colors        Color[]
   accessories   Accessory[]
